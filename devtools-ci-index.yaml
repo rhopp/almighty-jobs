@@ -957,6 +957,14 @@
             exit $rtn_code
     <<: *job_template_build_defaults
 
+
+- job-template:
+    name: '{ci_project}-{git_repo}-build-che-credentials-prcheck'
+    triggers:
+        github-pull-request:
+            <<: *github_pull_request_defaults
+    <<: *build_che_template
+
 - job-template:
     name: '{ci_project}-{git_repo}-publish-branch'
     scm:
@@ -1912,6 +1920,13 @@
             saas_git: saas-openshiftio
             timeout: '10m'
         - '{ci_project}-{git_repo}-build-che-credentials-{branch}':
+            git_organization: redhat-developer
+            git_repo: che-starter
+            ci_project: 'devtools'
+            ci_cmd: '/bin/bash cico_build_deploy.sh'
+            saas_git: saas-openshiftio
+            timeout: '20m'
+        - '{ci_project}-{git_repo}-build-che-credentials-prcheck':
             git_organization: redhat-developer
             git_repo: che-starter
             ci_project: 'devtools'
